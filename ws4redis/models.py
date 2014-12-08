@@ -10,7 +10,7 @@ def store_groups_in_session(sender, user, request, **kwargs):
     This is required by ws4redis, since fetching groups accesses the database, which is a blocking
     operation and thus not allowed from within the websocket loop.
     """
-    request.session['ws4redis:memberof'] = [user.role.name]
-    
+    request.session['ws4redis:memberof'] = [r.name for r in user.role]
+
     request.session['ws4redis:is_authenticated'] = request.user.is_authenticated()
     request.session['ws4redis:organization'] = user.organization.id
